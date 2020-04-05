@@ -147,4 +147,77 @@ TEXT
       expect(all_holidays_with_bbq(holiday_supplies)).to eq([:fourth_of_july, :memorial_day])
     end
   end
+
+  describe "#all_holidays" do
+  it "should return :christmas, :new_years, :fourth_of_july, :thanksgiving and :memorial_day" do
+    expect(all_holidays(holiday_supplies)).to eq([:christmas, :new_years, :fourth_of_july, :thanksgiving, :memorial_day])
+  end
 end
+
+  describe "#all_seasons_and_supplies" do
+
+    before do
+    @output = <<-TEXT
+Winter:
+  Lights, Wreath, Party Hats
+Summer:
+  Fireworks, BBQ
+Fall:
+  Turkey
+Spring:
+  BBQ
+      TEXT
+  end
+    
+    it "should output the formatted list of seasons and their supplies" do
+      @output.each_line do |line|
+        expect($stdout).to receive(:puts).with(line.chomp)
+      end
+
+      all_seasons_and_supplies(holiday_supplies)
+    end
+  end
+
+
+describe "#all_seasons_and_holidays" do
+
+  before do
+  @output = <<-TEXT
+Season: Winter
+  Holidays: Christmas, New Years
+Season: Summer
+  Holidays: Fourth Of July
+Season: Fall
+  Holidays: Thanksgiving
+Season: Spring
+  Holidays: Memorial Day
+TEXT
+end
+  
+    it "should output the formatted list of seasons and their holidays" do
+      @output.each_line do |line|
+        expect($stdout).to receive(:puts).with(line.chomp)
+      end
+
+      all_seasons_and_holidays(holiday_supplies)
+    end
+  end
+end
+
+# {
+#     {
+#       :winter => {
+#         :christmas => ["Lights", "Wreath"],
+#         :new_years => ["Party Hats"]
+#       },
+#       :summer => {
+#         :fourth_of_july => ["Fireworks", "BBQ"]
+#       },
+#       :fall => {
+#         :thanksgiving => ["Turkey"]
+#       },
+#       :spring => {
+#         :memorial_day => ["BBQ"]
+#       }
+#     }
+#   }

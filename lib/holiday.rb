@@ -11,8 +11,9 @@ def add_supply_to_winter_holidays(holiday_hash, supply)
   # holiday_hash is identical to the one above
   # add the second argument, which is a supply, to BOTH the
   # Christmas AND the New Year's arrays
-  holiday_hash[:winter][:christmas] << supply
-  holiday_hash[:winter][:new_years] << supply
+  holiday_hash[:winter].each do |holiday, supplies|
+    supplies << supply
+  end
 
 end
 
@@ -31,11 +32,9 @@ end
 
 def all_winter_holiday_supplies(holiday_hash)
   # return an array of all of the supplies that are used in the winter season
-  supplies = []
-  holiday_hash[:winter].each do |holiday, supply|
-    supplies << supply
-  end
-  supplies.flatten
+  holiday_hash[:winter].map do |holiday, supplies|
+    supplies
+  end.flatten
 end
 
 def all_supplies_in_holidays(holiday_hash)
@@ -82,25 +81,34 @@ def all_holidays_with_bbq(holiday_hash)
 
 end
 
-def holiday_changer(holiday_hash)
-
+def all_holidays(hash)
+  hash.map do |season, holiday|
+    holiday.map do |holiday, supplies|
+      holiday
+    end
+  end.flatten
 end
 
-    {
-    :winter => {
-      :christmas => ["Lights", "Wreath"],
-      :new_years => ["Party Hats"]
-    },
-    :summer => {
-      :fourth_of_july => ["Fireworks", "BBQ"]
-    },
-    :fall => {
-      :thanksgiving => ["Turkey"]
-    },
-    :spring => {
-      :memorial_day => ["BBQ"]
-    }
-  }
+def all_seasons_and_supplies(hash)
+  hash.each do |season, holiday|
+    puts "#{season.to_s.capitalize!}:"
+    array = []
+    holiday.each do |holiday, supplies|
+      array << supplies
+    end
+    puts "  #{array.flatten.join(", ")}"
+  end 
+end
 
+def all_seasons_and_holidays(hash)
+  hash.each do |season, holiday|
+    puts "Season: #{season.to_s.capitalize!}"
+    array = []
+    holiday.each do |holiday, supplies|
+      array << holiday.to_s.split("_").each { |ele| ele.capitalize! }.join(" ")
+    end
+    puts "  Holidays: #{array.flatten.join(", ")}"
+  end 
+end
 
 
